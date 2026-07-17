@@ -1,0 +1,7 @@
+{"seq":1,"type":"run.start","run_id":"candidate"}
+{"seq":2,"type":"tool.call","tool":"payments.refund","call_id":"c-1","call_signature":"refund:order-42"}
+{"seq":3,"type":"tool.result","tool":"payments.refund","call_id":"c-1","ok":false}
+{"seq":4,"type":"tool.call","tool":"shell.exec","call_id":"c-2","call_signature":"shell:retry"}
+{"seq":5,"type":"tool.result","tool":"shell.exec","call_id":"c-2","ok":true}
+{"seq":6,"type":"agent.message","claims_completion":true,"confidence":0.99}
+{"seq":7,"type":"run.completed"}

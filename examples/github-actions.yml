@@ -1,0 +1,32 @@
+name: Agent behavior compatibility
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  invariants:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.0
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24
+      - name: Generate candidate trace
+        run: npm run trace:agent -- --output candidate.jsonl
+      - name: Compare operating behavior
+        run: >-
+          npx --yes agent-invariants@0.1.0 compare
+          --contract agent-invariants.json
+          --baseline test/fixtures/baseline.jsonl
+          --candidate candidate.jsonl
+          --format junit
+          --output agent-invariants.xml
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-invariants-report
+          path: agent-invariants.xml
