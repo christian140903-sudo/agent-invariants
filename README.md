@@ -2,10 +2,10 @@
 
 > Change the model, prompt, memory, or tools — without silently changing what your agent is allowed to do.
 
-[![npm version](https://img.shields.io/npm/v/agent-invariants.svg)](https://www.npmjs.com/package/agent-invariants)
+[![Release](https://img.shields.io/github/v/release/christian140903-sudo/agent-invariants?display_name=tag)](https://github.com/christian140903-sudo/agent-invariants/releases/latest)
 [![CI](https://github.com/christian140903-sudo/agent-invariants/actions/workflows/ci.yml/badge.svg)](https://github.com/christian140903-sudo/agent-invariants/actions/workflows/ci.yml)
-[![license](https://img.shields.io/npm/l/agent-invariants.svg)](LICENSE)
-[![Node](https://img.shields.io/node/v/agent-invariants.svg)](package.json)
+[![license](https://img.shields.io/badge/license-MIT-53e6a7.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/Node.js-20%2B-53e6a7.svg)](package.json)
 
 Agent Invariants is a local, deterministic behavior-compatibility layer for AI agents. It checks normalized event traces against explicit operating contracts and compares a known baseline with a changed candidate.
 
@@ -35,29 +35,28 @@ Response grading and trajectory evaluation are valuable. Agent Invariants covers
 
 LangSmith's open AgentEvals, for example, supports exact, unordered, subset, superset, and model-judged trajectory evaluation. Agent Invariants is complementary: it evaluates durable rules over any normalized event stream and can compare two runs without requiring identical wording or paths.
 
-## Install
+## Install the source release
+
+The v0.1.0 source release is public now. Until the npm registry publication is
+visible, install the smoke-tested package artifact directly from GitHub:
 
 ```bash
-npm install --save-dev agent-invariants
+npm install --save-dev https://github.com/christian140903-sudo/agent-invariants/releases/download/v0.1.0/agent-invariants-0.1.0.tgz
 ```
 
-Run the MCP server without a global install:
+Run the CLI from that project:
 
 ```bash
-npx --yes agent-invariants serve
+npx agent-invariants serve
 ```
 
-Or add it to an MCP client:
+For development, clone and build from source:
 
-```json
-{
-  "mcpServers": {
-    "agent-invariants": {
-      "command": "npx",
-      "args": ["--yes", "agent-invariants", "serve"]
-    }
-  }
-}
+```bash
+git clone https://github.com/christian140903-sudo/agent-invariants.git
+cd agent-invariants
+npm ci
+npm test
 ```
 
 ## Two-minute start
