@@ -1,6 +1,6 @@
 {
   "name": "agent-invariants",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Deterministic behavior contracts for AI agents. Catch permission, stop, retry, scope, and false-completion regressions across agent changes.",
   "type": "module",
   "main": "dist/src/index.js",

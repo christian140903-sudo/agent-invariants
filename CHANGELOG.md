@@ -2,7 +2,7 @@
 
 All notable changes are documented here.
 
-## Unreleased
+## 0.1.1 — unreleased
 
 - Raise the `@modelcontextprotocol/sdk` floor to `^1.32.1` and refresh the
   lockfile (SDK 1.29.0 -> 1.32.1 with proxy-addr, ip-address, fast-uri, hono,
