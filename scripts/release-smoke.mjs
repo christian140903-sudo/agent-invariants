@@ -18,6 +18,7 @@ try {
   assert.ok(pack.files.some((file) => file.path === 'dist/src/index.js'));
   assert.ok(pack.files.some((file) => file.path === 'README.md'));
   assert.equal(pack.files.some((file) => file.path.includes('test/')), false);
+  assert.equal(pack.files.some((file) => file.path.startsWith('docs/README-nach-npm-release')), false, 'packed artifact must not contain the release-preparation notes');
   const tarball = join(project, pack.filename);
   execFileSync('npm', ['init', '-y'], { cwd: scratch, stdio: 'ignore' });
   execFileSync('npm', ['install', '--ignore-scripts', tarball], { cwd: scratch, stdio: 'ignore' });
