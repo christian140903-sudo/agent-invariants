@@ -6,6 +6,10 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const project = resolve(fileURLToPath(new URL('..', import.meta.url)));
+const { version: packageVersion } = JSON.parse(readFileSync(join(project, 'package.json'), 'utf8'));
+const serverJson = JSON.parse(readFileSync(join(project, 'server.json'), 'utf8'));
+assert.equal(serverJson.version, packageVersion, 'server.json version must match package.json');
+assert.ok(serverJson.packages.every((item) => item.version === packageVersion), 'server.json package versions must match package.json');
 const scratch = mkdtempSync(join(tmpdir(), 'agent-invariants-pack-'));
 try {
   const packed = execFileSync('npm', ['pack', '--json'], { cwd: project, encoding: 'utf8' });
@@ -20,7 +24,7 @@ try {
   const cli = join(scratch, 'node_modules', '.bin', 'agent-invariants');
   const version = spawnSync(cli, ['--version'], { cwd: scratch, encoding: 'utf8', timeout: 10_000 });
   assert.equal(version.status, 0, version.stderr);
-  assert.equal(version.stdout.trim(), '0.1.0');
+  assert.equal(version.stdout.trim(), packageVersion);
   rmSync(tarball);
   process.stdout.write(`Package smoke passed: ${pack.entryCount} files, ${pack.unpackedSize} bytes unpacked.\n`);
 } finally {
