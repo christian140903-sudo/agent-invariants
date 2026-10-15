@@ -12,4 +12,4 @@ npm test
 npm run smoke:pack
 ```
 
-Contributions must not include private traces, credentials, proprietary prompts, hidden chain-of-thought, or personal Miguel/Soul material. Use synthetic fixtures.
+Contributions must not include private traces, credentials, proprietary prompts, hidden chain-of-thought, or personal material from the author's private AI setup or Soul. Use synthetic fixtures.

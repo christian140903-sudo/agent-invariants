@@ -1,6 +1,6 @@
 # Origins and design choices
 
-Agent Invariants was created from a repeated problem inside Christian Bucher's Miguel/Soul work: changing a model or architecture could improve visible output while quietly weakening permission boundaries, recovery behavior, truthfulness, or the evidence required before saying “done.”
+Agent Invariants was created from a repeated problem inside Christian Bucher's private AI-assisted development setup and Soul work: changing a model or architecture could improve visible output while quietly weakening permission boundaries, recovery behavior, truthfulness, or the evidence required before saying “done.”
 
 Several private mechanisms converged into this public, identity-free kernel:
 
