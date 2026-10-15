@@ -18,7 +18,7 @@ jobs:
         run: npm run trace:agent -- --output candidate.jsonl
       - name: Compare operating behavior
         run: >-
-          npx --yes agent-invariants@0.1.0 compare
+          npx --yes https://github.com/christian140903-sudo/agent-invariants/releases/download/v0.1.0/agent-invariants-0.1.0.tgz compare
           --contract agent-invariants.json
           --baseline test/fixtures/baseline.jsonl
           --candidate candidate.jsonl

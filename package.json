@@ -1,6 +1,6 @@
 {
   "name": "agent-invariants",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Deterministic behavior contracts for AI agents. Catch permission, stop, retry, scope, and false-completion regressions across agent changes.",
   "type": "module",
   "main": "dist/src/index.js",
@@ -39,12 +39,13 @@
   ],
   "author": "Christian Bucher",
   "contributors": [
-    "Miguel (AI systems co-builder, under human review)"
+    "AI-assisted development under human direction and review"
   ],
   "license": "MIT",
   "files": [
     "dist/src",
     "docs",
+    "!docs/README-nach-npm-release.*",
     "examples",
     "server.json",
     "README.md",
@@ -67,7 +68,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.26.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "zod": "^3.25.0"
   },
   "devDependencies": {

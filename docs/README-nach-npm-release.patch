@@ -1,0 +1,115 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 9c9a8c8..d3d226e 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -11,8 +11,8 @@ All notable changes are documented here.
+   OAuth parts, which the stdio server does not use) to 0, so the CI `package`
+   job's audit step passes again. Installs from the v0.1.0 release tarball
+   already resolve SDK 1.32.1, since the tarball carries no lockfile.
+-- The GitHub Actions example installs from the release tarball, because the
+-  package is not on npm.
++- The GitHub Actions example installs `agent-invariants@0.1.1` from npm. In
++  0.1.0 it named `agent-invariants@0.1.0`, which was never on npm.
+ 
+ ## 0.1.0 — 2026-07-17
+ 
+diff --git a/README.md b/README.md
+index e69720e..cbe6e71 100644
+--- a/README.md
++++ b/README.md
+@@ -2,7 +2,7 @@
+ 
+ **Change the model, prompt, memory, or tools — without silently changing what your agent is allowed to do.**
+ 
+-[![Release](https://img.shields.io/github/v/release/christian140903-sudo/agent-invariants?display_name=tag)](https://github.com/christian140903-sudo/agent-invariants/releases/latest)
++[![npm](https://img.shields.io/npm/v/agent-invariants)](https://www.npmjs.com/package/agent-invariants)
+ [![CI](https://github.com/christian140903-sudo/agent-invariants/actions/workflows/ci.yml/badge.svg)](https://github.com/christian140903-sudo/agent-invariants/actions/workflows/ci.yml)
+ [![license](https://img.shields.io/badge/license-MIT-53e6a7.svg)](LICENSE)
+ [![Node](https://img.shields.io/badge/Node.js-20%2B-53e6a7.svg)](package.json)
+@@ -21,12 +21,12 @@ It catches regressions such as:
+ 
+ ## Try it in two minutes
+ 
+-Agent Invariants is not on npm. The commands below use the package attached to the [v0.1.0 GitHub release](https://github.com/christian140903-sudo/agent-invariants/releases/tag/v0.1.0). Requires Node.js 20 or newer.
++Requires Node.js 20 or newer.
+ 
+ **Claude Code** (stdio MCP server):
+ 
+ ```bash
+-claude mcp add agent-invariants -- npx -y https://github.com/christian140903-sudo/agent-invariants/releases/download/v0.1.0/agent-invariants-0.1.0.tgz serve
++claude mcp add agent-invariants -- npx -y agent-invariants serve
+ ```
+ 
+ This adds four stateless tools (validate a contract, check a trace, compare two traces, summarize a trace) and one prompt, `protect-behavior-change`, for planning a model, prompt, memory, or tool change.
+@@ -40,7 +40,7 @@ This adds four stateless tools (validate a contract, check a trace, compare two
+       "command": "npx",
+       "args": [
+         "-y",
+-        "https://github.com/christian140903-sudo/agent-invariants/releases/download/v0.1.0/agent-invariants-0.1.0.tgz",
++        "agent-invariants",
+         "serve"
+       ]
+     }
+@@ -51,16 +51,15 @@ This adds four stateless tools (validate a contract, check a trace, compare two
+ **CLI** — generate a passing example, then break it on purpose:
+ 
+ ```bash
+-TGZ=https://github.com/christian140903-sudo/agent-invariants/releases/download/v0.1.0/agent-invariants-0.1.0.tgz
+ mkdir invariants-demo && cd invariants-demo
+ 
+-npx -y "$TGZ" init      # writes agent-invariants.json and agent-trace.jsonl
+-npx -y "$TGZ" check --contract agent-invariants.json --trace agent-trace.jsonl
++npx -y agent-invariants init      # writes agent-invariants.json and agent-trace.jsonl
++npx -y agent-invariants check --contract agent-invariants.json --trace agent-trace.jsonl
+ # PASS  support-agent-operating-contract
+ 
+ # The same run without the approval, and with a self-attested outcome:
+ grep -v approval.granted agent-trace.jsonl | sed 's/externally_observed/self_attestation/' > candidate.jsonl
+-npx -y "$TGZ" compare --contract agent-invariants.json \
++npx -y agent-invariants compare --contract agent-invariants.json \
+   --baseline agent-trace.jsonl --candidate candidate.jsonl
+ # REGRESSION  support-agent-operating-contract
+ # ✗ new_rule_failure: Rule newly fails in candidate: payments-need-approval.
+@@ -69,10 +68,10 @@ npx -y "$TGZ" compare --contract agent-invariants.json \
+ 
+ The process exits `0` when the check is compatible, `1` for a behavior violation or regression, and `2` for invalid input or usage.
+ 
+-To use it in a project, install the same tarball as a dev dependency:
++To use it in a project, install it as a dev dependency:
+ 
+ ```bash
+-npm install --save-dev https://github.com/christian140903-sudo/agent-invariants/releases/download/v0.1.0/agent-invariants-0.1.0.tgz
++npm install --save-dev agent-invariants
+ npx agent-invariants check --contract agent-invariants.json --trace run.jsonl
+ ```
+ 
+@@ -261,7 +260,6 @@ npm run test:coverage
+ 
+ ## What it does not do
+ 
+-- It is not on npm; installation is from the GitHub release tarball or from source.
+ - It does not stop a live action; put a policy-enforcement point before dangerous tools.
+ - It cannot detect an event that the trace producer omitted or falsified.
+ - It ships no adapters for specific agent frameworks; you produce the normalized trace yourself ([event format](docs/event-format.md)).
+@@ -282,7 +280,7 @@ The rules come from mechanisms in my private agent system — permission rings,
+ 
+ ## Status
+ 
+-`0.1.0` · GitHub release (July 2026), not on npm · experimental · single maintainer · no known external users · last verified 2026-10-08
++`0.1.1` on npm (first release: 0.1.0 as a GitHub release, July 2026) · experimental · single maintainer · no known external users · last verified 2026-10-08
+ 
+ Issues and focused pull requests are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
+ 
+diff --git a/examples/github-actions.yml b/examples/github-actions.yml
+index c5be7bf..cb8bd50 100644
+--- a/examples/github-actions.yml
++++ b/examples/github-actions.yml
+@@ -18,7 +18,7 @@ jobs:
+         run: npm run trace:agent -- --output candidate.jsonl
+       - name: Compare operating behavior
+         run: >-
+-          npx --yes https://github.com/christian140903-sudo/agent-invariants/releases/download/v0.1.0/agent-invariants-0.1.0.tgz compare
++          npx --yes agent-invariants@0.1.1 compare
+           --contract agent-invariants.json
+           --baseline test/fixtures/baseline.jsonl
+           --candidate candidate.jsonl

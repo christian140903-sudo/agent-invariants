@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { checkTrace, compareTraces, summarizeTrace } from './evaluator.js';
 import { agentEventSchema, invariantContractSchema } from './schemas.js';
 
-export const AGENT_INVARIANTS_VERSION = '0.1.0';
+export const AGENT_INVARIANTS_VERSION = '0.1.1';
 
 function jsonResult(payload: unknown) {
   return { content: [{ type: 'text' as const, text: JSON.stringify(payload, null, 2) }] };
